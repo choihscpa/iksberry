@@ -32,7 +32,7 @@ window.FARM_CONFIG = {
 
   // 주문 전송 대상 (2단계에서 Google Apps Script 웹앱 URL 입력) -----
   // 비워두면 주문 시 "계좌이체 안내 + 전화/카카오 주문" 화면으로 동작합니다.
-  orderEndpoint: "",
+  orderEndpoint: "https://script.google.com/macros/s/AKfycbyX5vN3I_6vZSZCjloAizGPNZAUjPM4IO2mzkzCL4Gz3LBaNfpsSCbW7sshn4ZVwCwG/exec",
 
   // 사업자 / 법적 정보 (하단 푸터) --------------------------------
   business: {
