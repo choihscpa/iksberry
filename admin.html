@@ -35,7 +35,24 @@
     .btn-sm.ship { background: var(--leaf); }
     .muted { color: var(--ink-soft); text-align: center; padding: 40px; }
     .logout { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; color: var(--ink-soft); font-family: inherit; }
-    @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    /* 상품관리 */
+    .prod { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); margin-bottom:14px; }
+    .prod.new { border:2px dashed var(--berry-light); background:#faf7fd; }
+    .prod__grid { display:grid; grid-template-columns:repeat(6, 1fr); gap:10px; }
+    .prod__grid label { display:block; font-size:.75rem; font-weight:700; color:var(--ink-soft); margin-bottom:4px; }
+    .prod__grid .f-code { grid-column:span 2; }
+    .prod__grid .f-name { grid-column:span 4; }
+    .prod__grid .f-desc { grid-column:span 6; }
+    .prod__grid .f-img  { grid-column:span 6; }
+    .prod input, .prod select { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; font-size:.9rem; font-family:inherit; box-sizing:border-box; }
+    .prod input[readonly] { background:#f3f0f7; color:var(--ink-soft); }
+    .prod__foot { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+    .btn-del { background:#fff; border:1px solid #e0b4ae; color:#c0392b; padding:6px 14px; border-radius:999px; cursor:pointer; font-family:inherit; font-weight:600; font-size:.82rem; }
+    @media (max-width: 640px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .prod__grid { grid-template-columns:repeat(2, 1fr); }
+      .prod__grid .f-code, .prod__grid .f-name, .prod__grid .f-desc, .prod__grid .f-img { grid-column:span 2; }
+    }
   </style>
 </head>
 <body>
@@ -63,8 +80,18 @@
     <div class="tabs">
       <button class="is-active" data-tab="orders">전체 주문</button>
       <button data-tab="unpaid">미수금</button>
+      <button data-tab="products">상품관리</button>
     </div>
-    <div class="table-wrap"><table id="tbl"><tbody></tbody></table></div>
+    <div class="table-wrap" id="ordersPanel"><table id="tbl"><tbody></tbody></table></div>
+
+    <!-- 상품관리 패널 -->
+    <div id="productsPanel" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <p style="margin:0;color:var(--ink-soft);font-size:.9rem">상품을 추가·수정·삭제하면 홈페이지에 바로 반영됩니다. 판매여부 N 은 홈페이지에서 숨겨집니다.</p>
+        <button class="btn-sm" id="addProdBtn">＋ 새 상품 추가</button>
+      </div>
+      <div id="prodList"></div>
+    </div>
   </div>
 
   <!-- 수금등록 모달 -->

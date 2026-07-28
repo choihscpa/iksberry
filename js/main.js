@@ -6,12 +6,26 @@
   "use strict";
 
   const CFG = window.FARM_CONFIG || {};
-  const PRODUCTS = (window.FARM_PRODUCTS || []).filter((p) => p.sale !== false);
+  let PRODUCTS = [];
+  let qty = {}; // 상품별 현재 수량 상태 { 상품코드: 수량 }
   const won = (n) => (n || 0).toLocaleString("ko-KR") + "원";
 
-  // 상품별 현재 수량 상태 { 상품코드: 수량 }
-  const qty = {};
-  PRODUCTS.forEach((p) => (qty[p.code] = 0));
+  // 상품 목록 세팅 (판매중만) + 수량 초기화
+  function setProducts(list) {
+    PRODUCTS = (list || []).filter((p) => p.sale !== false);
+    qty = {};
+    PRODUCTS.forEach((p) => (qty[p.code] = 0));
+  }
+
+  // 상품 로드: 백엔드(orderEndpoint) 연동 시 구글시트에서 실시간 조회, 아니면 products.js 예시로 폴백
+  function loadProducts() {
+    const fallback = window.FARM_PRODUCTS || [];
+    if (!CFG.orderEndpoint) return Promise.resolve(fallback);
+    return fetch(CFG.orderEndpoint + "?action=products")
+      .then((r) => r.json())
+      .then((res) => (res && res.ok && res.products && res.products.length) ? res.products : fallback)
+      .catch(() => fallback);
+  }
 
   // ---------- 설정값을 페이지에 주입 ----------
   function applyConfig() {
@@ -321,9 +335,14 @@
   // ---------- 초기화 ----------
   document.addEventListener("DOMContentLoaded", () => {
     applyConfig();
-    renderProducts("전체");
-    renderOrderItems();
-    calcTotals();
     bindEvents();
+    const grid = document.getElementById("productGrid");
+    if (grid) grid.innerHTML = '<p class="products__note">상품을 불러오는 중…</p>';
+    loadProducts().then((list) => {
+      setProducts(list);
+      renderProducts("전체");
+      renderOrderItems();
+      calcTotals();
+    });
   });
 })();
