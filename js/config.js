@@ -6,14 +6,15 @@
  */
 window.FARM_CONFIG = {
   // 농장 기본 정보 --------------------------------------------------
-  farmName: "익산 블루베리 농장",
-  tagline: "익산 햇살로 키운 알알이 진한 블루베리",
+  farmName: "익스베리 팜",
+  farmNameEn: "Ik's Berry Farm",
+  tagline: "새콤~ 달콤~ 익산 청정농장의 슈퍼푸드 블루베리",
   intro:
-    "가족이 정성으로 가꾼 익산의 작은 블루베리 농원입니다. " +
+    "전북 익산의 청정농장 익스베리팜에서 무농약으로 정성껏 키운 블루베리입니다. " +
     "수확 당일 신선하게 포장해 보내드립니다.",
 
   // 연락처 / 채널 --------------------------------------------------
-  phone: "010-0000-0000",
+  phone: "010-4745-2900",
   kakaoChannelUrl: "", // 카카오톡 채널 URL (예: https://pf.kakao.com/_xxxxx). 없으면 빈 값
   location: "전북 익산시",
 
@@ -34,12 +35,16 @@ window.FARM_CONFIG = {
   // 비워두면 주문 시 "계좌이체 안내 + 전화/카카오 주문" 화면으로 동작합니다.
   orderEndpoint: "https://script.google.com/macros/s/AKfycbyX5vN3I_6vZSZCjloAizGPNZAUjPM4IO2mzkzCL4Gz3LBaNfpsSCbW7sshn4ZVwCwG/exec",
 
+  // 무농약 인증 (푸터/농장 이야기 표시) ----------------------------
+  certNumber: "무농약농산물 제14304287호",
+
   // 사업자 / 법적 정보 (하단 푸터) --------------------------------
+  // ↓ 사업자등록번호·통신판매업 신고번호·주소는 확정되면 교체하세요.
   business: {
-    company: "○○농원",
-    owner: "대표자명",
-    regNumber: "000-00-00000", // 사업자등록번호
-    mailOrderNumber: "제0000-익산-0000호", // 통신판매업 신고번호
-    address: "전북 익산시 ○○로 000",
+    company: "익스베리 팜",
+    owner: "최인섭",
+    regNumber: "", // 사업자등록번호 (예: 000-00-00000). 없으면 빈 값 → 표시 안 함
+    mailOrderNumber: "", // 통신판매업 신고번호. 없으면 빈 값 → 표시 안 함
+    address: "전북 익산시",
   },
 };

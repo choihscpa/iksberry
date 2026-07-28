@@ -35,12 +35,14 @@
     setText("[data-tagline]", CFG.tagline);
     setText("[data-intro]", CFG.intro);
     setText("[data-location]", CFG.location);
+    setText("[data-cert]", CFG.certNumber);
 
-    // 연락처
-    const phoneLink = document.querySelector("[data-phone-link]");
-    if (phoneLink && CFG.phone) {
-      phoneLink.textContent = CFG.phone;
-      phoneLink.setAttribute("href", "tel:" + CFG.phone.replace(/[^0-9+]/g, ""));
+    // 연락처 (여러 곳: 농장이야기·푸터)
+    if (CFG.phone) {
+      document.querySelectorAll("[data-phone-link]").forEach((el) => {
+        el.textContent = CFG.phone;
+        el.setAttribute("href", "tel:" + CFG.phone.replace(/[^0-9+]/g, ""));
+      });
     }
     // 카카오 채널
     const kakao = document.querySelector("[data-kakao-slot]");
@@ -48,13 +50,13 @@
       kakao.innerHTML =
         '💬 <a href="' + CFG.kakaoChannelUrl + '" target="_blank" rel="noopener">카카오톡 채널</a>';
     }
-    // 사업자 정보
+    // 사업자 정보 (있는 항목만 표시)
     const b = CFG.business || {};
     setText("[data-biz-company]", b.company);
     setText("[data-biz-owner]", b.owner);
-    setText("[data-biz-reg]", b.regNumber);
-    setText("[data-biz-mail]", b.mailOrderNumber);
     setText("[data-biz-address]", b.address);
+    toggleBizLine("[data-biz-reg-line]", "[data-biz-reg]", b.regNumber);
+    toggleBizLine("[data-biz-mail-line]", "[data-biz-mail]", b.mailOrderNumber);
 
     // 계좌 박스 (주문 섹션)
     renderAccount();
@@ -66,6 +68,18 @@
   function setText(sel, val) {
     if (!val) return;
     document.querySelectorAll(sel).forEach((el) => (el.textContent = val));
+  }
+
+  // 사업자등록번호/통신판매업 등 값이 있을 때만 해당 줄 표시
+  function toggleBizLine(lineSel, valSel, val) {
+    const line = document.querySelector(lineSel);
+    if (!line) return;
+    if (val) {
+      line.hidden = false;
+      setText(valSel, val);
+    } else {
+      line.hidden = true;
+    }
   }
 
   function renderAccount() {
@@ -88,9 +102,8 @@
 
     grid.innerHTML = list
       .map((p) => {
-        const img = p.img
-          ? '<div class="card__img"><img src="' + p.img + '" alt="' + p.name + '" loading="lazy" /></div>'
-          : '<div class="card__img"><div class="ph">🫐<span>상품 사진</span></div></div>';
+        const src = p.img || defaultImg(p.category);
+        const img = '<div class="card__img"><img src="' + src + '" alt="' + p.name + '" loading="lazy" /></div>';
         return (
           '<article class="card">' + img +
           '<div class="card__body">' +
@@ -105,6 +118,13 @@
         );
       })
       .join("");
+  }
+
+  // 상품에 이미지가 없을 때 구분별 기본 사진
+  function defaultImg(category) {
+    if (category === "가공") return "img/farm4.jpg";
+    if (category === "냉동") return "img/farm4.jpg";
+    return "img/farm5.jpg"; // 생과 등 기본
   }
 
   // ---------- 주문폼 상품 리스트 ----------
