@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 · 익산 블루베리 농장</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: #f4f0f7; }
+    .admin { max-width: 900px; margin: 0 auto; padding: 24px 16px 60px; }
+    .admin__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .admin__head h1 { font-size: 1.4rem; margin: 0; color: var(--berry-dark); }
+    .login { max-width: 360px; margin: 12vh auto; background: #fff; padding: 32px 26px; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; }
+    .login input { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: 1rem; margin: 14px 0; font-family: inherit; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+    .stat { background: #fff; border-radius: var(--radius-sm); padding: 16px; box-shadow: var(--shadow); text-align: center; }
+    .stat b { display: block; font-size: 1.3rem; color: var(--berry); margin-top: 4px; }
+    .stat.mother b { color: #c0392b; }
+    .stat span { font-size: .8rem; color: var(--ink-soft); }
+    .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+    .tabs button { padding: 8px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-family: inherit; font-weight: 600; color: var(--ink-soft); }
+    .tabs button.is-active { background: var(--berry); color: #fff; border-color: var(--berry); }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); font-size: .9rem; }
+    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+    th { background: #efe9f4; color: var(--berry-dark); font-size: .82rem; }
+    .table-wrap { overflow-x: auto; }
+    .pill { font-size: .75rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+    .pill--미수금 { background: #fdecea; color: #c0392b; }
+    .pill--부분수금 { background: #fef3e0; color: #b9770e; }
+    .pill--완납 { background: #e7f0e4; color: var(--leaf-dark); }
+    .pill--접수 { background: #eef; color: #4557b6; }
+    .pill--발송 { background: #e7f0e4; color: var(--leaf-dark); }
+    .btn-sm { padding: 6px 12px; font-size: .82rem; border-radius: 999px; border: 0; background: var(--berry); color: #fff; cursor: pointer; font-family: inherit; font-weight: 600; }
+    .btn-sm.ship { background: var(--leaf); }
+    .muted { color: var(--ink-soft); text-align: center; padding: 40px; }
+    .logout { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; color: var(--ink-soft); font-family: inherit; }
+    @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  </style>
+</head>
+<body>
+  <!-- 로그인 -->
+  <div class="login" id="loginBox">
+    <h2 style="margin-top:0;color:var(--berry-dark)">🫐 관리자 로그인</h2>
+    <p style="color:var(--ink-soft);font-size:.9rem">비밀번호를 입력하세요.</p>
+    <input type="password" id="pw" placeholder="비밀번호" />
+    <button class="btn btn--primary btn--block" id="loginBtn">접속</button>
+    <p id="loginErr" style="color:#c0392b;font-size:.85rem;min-height:1em"></p>
+  </div>
+
+  <!-- 대시보드 -->
+  <div class="admin" id="app" hidden>
+    <div class="admin__head">
+      <h1>🫐 주문·수금 관리</h1>
+      <div>
+        <button class="logout" id="refreshBtn">↻ 새로고침</button>
+        <button class="logout" id="logoutBtn">로그아웃</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="tabs">
+      <button class="is-active" data-tab="orders">전체 주문</button>
+      <button data-tab="unpaid">미수금</button>
+    </div>
+    <div class="table-wrap"><table id="tbl"><tbody></tbody></table></div>
+  </div>
+
+  <!-- 수금등록 모달 -->
+  <div class="modal" id="payModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box">
+      <button class="modal__close" data-close>✕</button>
+      <h3>수금 등록</h3>
+      <p style="color:var(--ink-soft);font-size:.9rem" id="payOrderInfo"></p>
+      <label class="order__step" style="border:0;padding:0;display:block">금액
+        <input type="number" id="payAmount" style="width:100%;margin:6px 0 14px;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:1rem" />
+      </label>
+      <label style="display:block;margin-bottom:8px;font-weight:600">수금경로</label>
+      <select id="payMethod" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;margin-bottom:14px">
+        <option value="통장">통장</option>
+        <option value="현금">현금</option>
+        <option value="어머니">어머니 (대리수취)</option>
+        <option value="기타">기타</option>
+      </select>
+      <label style="display:block;margin-bottom:8px;font-weight:600">수금자</label>
+      <input type="text" id="payReceiver" placeholder="형 / 어머니 / 본인" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;margin-bottom:16px" />
+      <button class="btn btn--primary btn--block" id="paySubmit">저장</button>
+      <p id="payMsg" style="text-align:center;font-size:.85rem;color:var(--ink-soft);min-height:1em"></p>
+    </div>
+  </div>
+
+  <!-- 발송처리 모달 -->
+  <div class="modal" id="shipModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box">
+      <button class="modal__close" data-close>✕</button>
+      <h3>발송 처리</h3>
+      <p style="color:var(--ink-soft);font-size:.9rem" id="shipOrderInfo"></p>
+      <label style="display:block;margin-bottom:8px;font-weight:600">택배사</label>
+      <input type="text" id="shipCourier" placeholder="우체국 / CJ 등" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;margin-bottom:14px" />
+      <label style="display:block;margin-bottom:8px;font-weight:600">송장번호</label>
+      <input type="text" id="shipTracking" style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:1rem;margin-bottom:16px" />
+      <button class="btn btn--primary btn--block" id="shipSubmit">발송 완료</button>
+      <p id="shipMsg" style="text-align:center;font-size:.85rem;color:var(--ink-soft);min-height:1em"></p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

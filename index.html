@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>익산 블루베리 농장</title>
+  <meta name="description" content="익산 햇살로 키운 신선한 블루베리를 농장에서 직접 보내드립니다. 생과·냉동·수제잼 온라인 주문." />
+  <meta name="theme-color" content="#4a2a6b" />
+
+  <!-- 카카오톡·문자·SNS 링크 공유 미리보기 (Open Graph) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="익산 블루베리 농장" />
+  <meta property="og:description" content="익산 햇살로 키운 신선한 블루베리를 농장에서 직접 보내드립니다. 생과·냉동·수제잼 온라인 주문." />
+  <!-- 아래 og:image 는 배포 주소로 교체하세요 (권장 1200x630). 예: https://아이디.github.io/저장소/img/og-cover.jpg -->
+  <meta property="og:image" content="img/og-cover.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- 파비콘 (블루베리 이모지 SVG) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AB%90%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- 상단 내비게이션 -->
+  <header class="nav" id="top">
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo">
+        <span class="nav__logo-mark">🫐</span>
+        <span class="nav__logo-text" data-farm-name>익산 블루베리 농장</span>
+      </a>
+      <button class="nav__toggle" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav__menu">
+        <a href="#story">농장 이야기</a>
+        <a href="#products">상품 안내</a>
+        <a href="#order">주문하기</a>
+        <a href="#faq">자주 묻는 질문</a>
+        <a href="#order" class="nav__cta">주문하기</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. 홈 (히어로) -->
+    <section class="hero" id="home">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="hero__badge" data-harvest-banner>🌱 올해 수확 시즌 안내</p>
+        <h1 class="hero__title" data-farm-name>익산 블루베리 농장</h1>
+        <p class="hero__tagline" data-tagline>익산 햇살로 키운 알알이 진한 블루베리</p>
+        <div class="hero__actions">
+          <a href="#products" class="btn btn--primary">상품 둘러보기</a>
+          <a href="#order" class="btn btn--ghost">바로 주문하기</a>
+        </div>
+      </div>
+      <a href="#story" class="hero__scroll" aria-label="아래로 스크롤">⌄</a>
+    </section>
+
+    <!-- 2. 농장 이야기 -->
+    <section class="section story" id="story">
+      <div class="container">
+        <p class="section__eyebrow">Our Story</p>
+        <h2 class="section__title">농장 이야기</h2>
+        <div class="story__grid">
+          <div class="story__photo" aria-hidden="true">
+            <div class="ph ph--farm">🏞️<span>농장 사진</span></div>
+          </div>
+          <div class="story__text">
+            <p data-intro>가족이 정성으로 가꾼 익산의 작은 블루베리 농원입니다.</p>
+            <ul class="story__points">
+              <li><strong>재배 방식</strong> · 익산의 맑은 기후에서 정성껏 키웁니다.</li>
+              <li><strong>수확 당일 발송</strong> · 가장 신선한 상태로 포장합니다.</li>
+              <li><strong>가족 운영</strong> · 심고 가꾸고 보내는 모든 과정을 직접 합니다.</li>
+            </ul>
+            <p class="story__loc">📍 <span data-location>전북 익산시</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 상품 안내 -->
+    <section class="section products" id="products">
+      <div class="container">
+        <p class="section__eyebrow">Products</p>
+        <h2 class="section__title">상품 안내</h2>
+        <div class="products__filter" role="tablist">
+          <button class="chip is-active" data-filter="전체">전체</button>
+          <button class="chip" data-filter="생과">생과</button>
+          <button class="chip" data-filter="냉동">냉동</button>
+          <button class="chip" data-filter="가공">가공</button>
+        </div>
+        <div class="products__grid" id="productGrid"><!-- JS 렌더링 --></div>
+        <p class="products__note">※ 가격·구성은 예시이며 실제 판매 정보로 교체될 예정입니다.</p>
+      </div>
+    </section>
+
+    <!-- 4. 주문하기 -->
+    <section class="section order" id="order">
+      <div class="container">
+        <p class="section__eyebrow">Order</p>
+        <h2 class="section__title">주문하기</h2>
+        <form class="order__form" id="orderForm" novalidate>
+          <!-- 4-1 상품 선택 -->
+          <fieldset class="order__step">
+            <legend><span class="order__num">1</span> 상품 선택</legend>
+            <div class="order__items" id="orderItems"><!-- JS 렌더링 --></div>
+          </fieldset>
+
+          <!-- 4-2 주문자 / 수령인 -->
+          <fieldset class="order__step">
+            <legend><span class="order__num">2</span> 주문자 · 수령인 정보</legend>
+            <div class="form__row">
+              <label>주문자명 <span class="req">*</span>
+                <input type="text" name="ordererName" required autocomplete="name" />
+              </label>
+              <label>연락처 <span class="req">*</span>
+                <input type="tel" name="ordererPhone" required placeholder="010-0000-0000" autocomplete="tel" />
+              </label>
+            </div>
+            <label>이메일 <small style="font-weight:400;color:#6a6472">(주문확인 메일을 받으시려면 입력)</small>
+              <input type="email" name="ordererEmail" placeholder="example@email.com" autocomplete="email" />
+            </label>
+            <label class="form__check">
+              <input type="checkbox" id="sameAsOrderer" checked />
+              수령인이 주문자와 같습니다
+            </label>
+            <div class="form__row" id="receiverFields" hidden>
+              <label>수령인명
+                <input type="text" name="receiverName" autocomplete="off" />
+              </label>
+              <label>수령인 연락처
+                <input type="tel" name="receiverPhone" placeholder="010-0000-0000" />
+              </label>
+            </div>
+            <label>배송지 <span class="req">*</span>
+              <input type="text" name="address" required placeholder="도로명 주소 + 상세주소" autocomplete="street-address" />
+            </label>
+            <label>배송 요청사항
+              <input type="text" name="memo" placeholder="예: 부재 시 경비실, 선물 배송 등" />
+            </label>
+          </fieldset>
+
+          <!-- 4-3 결제(입금) 안내 -->
+          <fieldset class="order__step">
+            <legend><span class="order__num">3</span> 결제 안내</legend>
+            <div class="order__pay">
+              <p>주문 접수 후 아래 계좌로 입금해 주시면 확인 후 발송해 드립니다.</p>
+              <div class="order__account" id="accountBox"><!-- JS 렌더링 --></div>
+              <label class="form__check">
+                <input type="checkbox" name="agree" required />
+                <span>개인정보 수집·이용에 동의합니다. <a href="#privacy">(자세히)</a> <span class="req">*</span></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- 합계 + 제출 -->
+          <div class="order__summary">
+            <dl>
+              <div><dt>상품 합계</dt><dd id="sumProducts">0원</dd></div>
+              <div><dt>배송비</dt><dd id="sumShipping">0원</dd></div>
+              <div class="order__total"><dt>총 결제금액</dt><dd id="sumTotal">0원</dd></div>
+            </dl>
+            <button type="submit" class="btn btn--primary btn--block">주문 접수하기</button>
+            <p class="order__hint" id="orderHint"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. FAQ -->
+    <section class="section faq" id="faq">
+      <div class="container">
+        <p class="section__eyebrow">FAQ</p>
+        <h2 class="section__title">자주 묻는 질문</h2>
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary>배송은 얼마나 걸리나요?</summary>
+            <p>입금 확인 후 1~2일 이내 발송하며, 택배사 사정에 따라 수령까지 1~3일 소요됩니다. 생과는 수확 당일 포장해 가장 신선하게 보내드립니다.</p>
+          </details>
+          <details class="faq__item">
+            <summary>신선도는 어떻게 보장되나요?</summary>
+            <p>아이스팩과 보냉 포장으로 발송합니다. 수령 즉시 냉장 보관해 주세요. 생과는 5~7일, 냉동은 냉동실에서 장기 보관이 가능합니다.</p>
+          </details>
+          <details class="faq__item">
+            <summary>교환·반품이 가능한가요?</summary>
+            <p>신선식품 특성상 단순 변심 반품은 어렵습니다. 다만 상품 하자·오배송의 경우 수령일로부터 24시간 이내 사진과 함께 연락 주시면 교환·환불해 드립니다.</p>
+          </details>
+          <details class="faq__item">
+            <summary>결제는 어떻게 하나요?</summary>
+            <p>현재는 계좌이체(무통장 입금)로 진행됩니다. 주문 접수 시 안내되는 계좌로 입금해 주시면 확인 후 발송합니다.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 6. 푸터 -->
+  <footer class="footer" id="privacy">
+    <div class="container footer__grid">
+      <div class="footer__col">
+        <h3 class="footer__brand" data-farm-name>익산 블루베리 농장</h3>
+        <p class="footer__contact">
+          📞 <a href="#" data-phone-link>010-0000-0000</a><br />
+          <span data-kakao-slot></span>
+        </p>
+      </div>
+      <div class="footer__col footer__biz">
+        <p><strong data-biz-company>○○농원</strong> · 대표 <span data-biz-owner>대표자명</span></p>
+        <p>사업자등록번호 <span data-biz-reg>000-00-00000</span></p>
+        <p>통신판매업 신고 <span data-biz-mail>제0000-익산-0000호</span></p>
+        <p data-biz-address>전북 익산시 ○○로 000</p>
+      </div>
+      <div class="footer__col footer__links">
+        <a href="#privacy">개인정보처리방침</a>
+        <a href="#faq">교환·반품 안내</a>
+      </div>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> <span data-farm-name>익산 블루베리 농장</span>. All rights reserved.</p>
+  </footer>
+
+  <!-- 주문 완료 모달 -->
+  <div class="modal" id="orderModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" data-close aria-label="닫기">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
