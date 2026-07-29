@@ -262,6 +262,17 @@ img { max-width: 100%; display: block; }
 .modal__order-no { background: #f7f3fb; border-radius: var(--radius-sm); padding: 12px; text-align: center; font-size: 1.2rem; font-weight: 800; color: var(--berry); margin: 14px 0; letter-spacing: .04em; }
 .modal__acct { background: #fdf9f3; border: 1px dashed var(--leaf); border-radius: var(--radius-sm); padding: 14px 16px; margin: 12px 0; }
 
+/* 개인정보처리방침 등 문서 모달 */
+.modal__box--doc { max-width: 620px; max-height: 86vh; display: flex; flex-direction: column; }
+.doc { overflow-y: auto; text-align: left; padding-right: 4px; margin-bottom: 14px; }
+.doc h4 { color: var(--berry-dark); font-size: .98rem; margin: 18px 0 4px; }
+.doc p, .doc li { font-size: .88rem; color: var(--ink); line-height: 1.65; margin: 4px 0; }
+.doc ul { margin: 4px 0; padding-left: 18px; }
+.doc__date { color: var(--ink-soft); margin-top: 16px !important; }
+
+/* 주문 동의 안내 */
+.order__consent { font-size: .8rem; color: var(--ink-soft); background: #f7f4fa; border-radius: var(--radius-sm); padding: 10px 12px; margin: 10px 0 0; line-height: 1.7; }
+
 /* ---------- 반응형 ---------- */
 @media (max-width: 760px) {
   .nav__menu {

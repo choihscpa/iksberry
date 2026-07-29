@@ -162,8 +162,13 @@
               <div class="order__account" id="accountBox"><!-- JS 렌더링 --></div>
               <label class="form__check">
                 <input type="checkbox" name="agree" required />
-                <span>개인정보 수집·이용에 동의합니다. <a href="#privacy">(자세히)</a> <span class="req">*</span></span>
+                <span>[필수] 개인정보 수집·이용에 동의합니다. <a href="#" data-privacy>자세히</a> <span class="req">*</span></span>
               </label>
+              <p class="order__consent">
+                · 수집 항목: 주문자·수령인 성명, 연락처, 배송지 주소, 이메일(선택)<br />
+                · 이용 목적: 주문 처리·입금 확인·상품 배송·문의 응대<br />
+                · 보유 기간: 관련 법령에 따라 보관 후 파기 (동의 거부 시 주문이 제한됩니다)
+              </p>
             </div>
           </fieldset>
 
@@ -216,6 +221,7 @@
         <p class="footer__tag">Ik's Berry Farm · 전북 익산 무농약 블루베리</p>
         <p class="footer__contact">
           📞 <a href="tel:01047452900" data-phone-link>010-4745-2900</a><br />
+          ✉️ <a data-email-link href="mailto:cisbb1983@gmail.com">cisbb1983@gmail.com</a><br />
           <span data-kakao-slot></span>
         </p>
       </div>
@@ -227,12 +233,62 @@
         <p data-biz-address>전북 익산시</p>
       </div>
       <div class="footer__col footer__links">
-        <a href="#privacy">개인정보처리방침</a>
+        <a href="#" data-privacy>개인정보처리방침</a>
         <a href="#faq">교환·반품 안내</a>
       </div>
     </div>
     <p class="footer__copy">© <span id="year"></span> <span data-farm-name>익스베리 팜</span>. All rights reserved.</p>
   </footer>
+
+  <!-- 개인정보처리방침 모달 -->
+  <div class="modal" id="privacyModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__box modal__box--doc" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+      <button class="modal__close" data-close aria-label="닫기">✕</button>
+      <div class="doc">
+        <h3 id="privacyTitle">개인정보처리방침</h3>
+        <p><strong data-farm-name>익스베리 팜</strong>(이하 '농장')은 「개인정보 보호법」 등 관련 법령을 준수하며, 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
+
+        <h4>제1조 (수집하는 개인정보 항목 및 방법)</h4>
+        <p>· 주문 접수 시: 주문자 성명, 휴대폰번호, 이메일(선택), 수령인 성명·연락처, 배송지 주소<br />· 수집 방법: 홈페이지 주문서 입력</p>
+
+        <h4>제2조 (개인정보의 수집·이용 목적)</h4>
+        <p>주문 접수 및 처리, 대금(입금) 확인, 상품 배송, 주문·배송 관련 안내 및 고객 문의 응대.</p>
+
+        <h4>제3조 (개인정보의 보유·이용 기간)</h4>
+        <p>수집·이용 목적 달성 시 지체 없이 파기합니다. 단, 관련 법령에 따라 아래 정보는 명시된 기간 동안 보관합니다.</p>
+        <ul>
+          <li>계약 또는 청약철회 등에 관한 기록: 5년 (전자상거래법)</li>
+          <li>대금결제 및 재화 등의 공급에 관한 기록: 5년 (전자상거래법)</li>
+          <li>소비자 불만 또는 분쟁처리에 관한 기록: 3년 (전자상거래법)</li>
+        </ul>
+
+        <h4>제4조 (개인정보의 제3자 제공)</h4>
+        <p>농장은 원칙적으로 개인정보를 외부에 제공하지 않습니다. 다만 상품 배송을 위하여 택배사에 수령인 성명·연락처·배송지 주소를 제공합니다.</p>
+
+        <h4>제5조 (개인정보 처리의 위탁)</h4>
+        <p>원활한 배송을 위하여 상품 배송 업무를 택배사에 위탁할 수 있습니다.</p>
+
+        <h4>제6조 (정보주체의 권리·의무 및 행사 방법)</h4>
+        <p>이용자는 언제든지 본인의 개인정보에 대한 열람·정정·삭제·처리정지를 요구할 수 있으며, 아래 보호책임자에게 요청하시면 지체 없이 조치합니다.</p>
+
+        <h4>제7조 (동의 거부 권리 및 불이익)</h4>
+        <p>이용자는 개인정보 수집·이용 동의를 거부할 권리가 있습니다. 다만 필수 항목에 동의하지 않으실 경우 주문 접수가 제한됩니다.</p>
+
+        <h4>제8조 (개인정보의 파기)</h4>
+        <p>보유기간 경과 또는 처리목적 달성 시, 전자적 파일은 복구 불가능한 방법으로 삭제하고 출력물은 분쇄·소각하여 파기합니다.</p>
+
+        <h4>제9조 (개인정보 보호책임자)</h4>
+        <p>· 성명: <span data-biz-owner>최인섭</span><br />· 연락처: <span data-phone-plain>010-4745-2900</span> / <span data-email-plain>cisbb1983@gmail.com</span></p>
+
+        <h4>제10조 (개인정보의 안전성 확보조치)</h4>
+        <p>개인정보는 주문 처리 목적에 한하여 접근 권한이 있는 관리자만 취급하며, 접근을 제한하여 관리합니다.</p>
+
+        <p class="doc__date">시행일: 2026년 7월 30일</p>
+      </div>
+      <button class="btn btn--primary btn--block" data-close>확인</button>
+    </div>
+  </div>
 
   <!-- 주문 완료 모달 -->
   <div class="modal" id="orderModal" hidden>
@@ -246,8 +302,8 @@
   <!-- 다음(카카오) 우편번호 서비스 — 도로명주소 검색 (무료, 키 불필요) -->
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- ?v= 는 브라우저 캐시 방지용 버전. 설정을 바꿔 배포할 때 숫자를 올리면 즉시 반영됩니다. -->
-  <script src="js/config.js?v=3"></script>
-  <script src="js/products.js?v=3"></script>
-  <script src="js/main.js?v=3"></script>
+  <script src="js/config.js?v=4"></script>
+  <script src="js/products.js?v=4"></script>
+  <script src="js/main.js?v=4"></script>
 </body>
 </html>

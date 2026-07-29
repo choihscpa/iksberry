@@ -15,6 +15,7 @@ window.FARM_CONFIG = {
 
   // 연락처 / 채널 --------------------------------------------------
   phone: "010-4745-2900",
+  email: "cisbb1983@gmail.com", // 고객 문의/사업자 표시용 이메일
   kakaoChannelUrl: "", // 카카오톡 채널 URL (예: https://pf.kakao.com/_xxxxx). 없으면 빈 값
   location: "전북 익산시",
 

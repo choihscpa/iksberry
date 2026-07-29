@@ -44,6 +44,15 @@
         el.setAttribute("href", "tel:" + CFG.phone.replace(/[^0-9+]/g, ""));
       });
     }
+    // 이메일 (링크 + 방침 내 표기)
+    if (CFG.email) {
+      document.querySelectorAll("[data-email-link]").forEach((el) => {
+        el.textContent = CFG.email;
+        el.setAttribute("href", "mailto:" + CFG.email);
+      });
+      setText("[data-email-plain]", CFG.email);
+    }
+    setText("[data-phone-plain]", CFG.phone);
     // 카카오 채널
     const kakao = document.querySelector("[data-kakao-slot]");
     if (kakao && CFG.kakaoChannelUrl) {
@@ -205,6 +214,8 @@
       if (step) {
         setQty(step.dataset.code, (qty[step.dataset.code] || 0) + parseInt(step.dataset.step, 10));
       }
+      const pv = e.target.closest("[data-privacy]");
+      if (pv) { e.preventDefault(); openModal("privacyModal"); }
       if (e.target.matches("[data-close]")) closeModal();
     });
 
@@ -378,9 +389,15 @@
     modal.hidden = false;
     document.body.style.overflow = "hidden";
   }
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
   function closeModal() {
-    const modal = document.getElementById("orderModal");
-    if (modal) modal.hidden = true;
+    // 열려 있는 모든 모달 닫기 (주문완료·개인정보처리방침)
+    document.querySelectorAll(".modal").forEach((m) => (m.hidden = true));
     document.body.style.overflow = "";
   }
 
