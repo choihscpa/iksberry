@@ -146,6 +146,14 @@
                 <input type="text" name="zipcode" id="zipcode" placeholder="우편번호" readonly />
                 <button type="button" class="btn addr__btn" id="addrSearchBtn">주소 검색</button>
               </div>
+              <!-- 도로명·건물명 검색 (인라인 작은 창) -->
+              <div class="postcode-box" id="postcodeBox" hidden>
+                <div class="postcode-box__bar">
+                  <span>🔎 도로명·건물명으로 검색</span>
+                  <button type="button" id="postcodeClose" aria-label="닫기">✕</button>
+                </div>
+                <div id="postcodeWrap"></div>
+              </div>
               <input type="text" name="address1" id="address1" placeholder="주소 검색을 눌러 도로명 주소를 선택하세요" readonly required />
               <input type="text" name="address2" id="address2" placeholder="상세주소 (동/호수 등)" autocomplete="off" />
             </div>
@@ -302,8 +310,8 @@
   <!-- 다음(카카오) 우편번호 서비스 — 도로명주소 검색 (무료, 키 불필요) -->
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <!-- ?v= 는 브라우저 캐시 방지용 버전. 설정을 바꿔 배포할 때 숫자를 올리면 즉시 반영됩니다. -->
-  <script src="js/config.js?v=4"></script>
-  <script src="js/products.js?v=4"></script>
-  <script src="js/main.js?v=4"></script>
+  <script src="js/config.js?v=5"></script>
+  <script src="js/products.js?v=5"></script>
+  <script src="js/main.js?v=5"></script>
 </body>
 </html>

@@ -229,6 +229,8 @@
     if (addrBtn) addrBtn.addEventListener("click", openPostcode);
     const addr1 = document.getElementById("address1");
     if (addr1) addr1.addEventListener("click", openPostcode);
+    const pcClose = document.getElementById("postcodeClose");
+    if (pcClose) pcClose.addEventListener("click", closePostcode);
 
     // 수령인 동일 체크
     const same = document.getElementById("sameAsOrderer");
@@ -267,22 +269,38 @@
     return (a1 + " " + a2).trim() + (zip ? " [" + zip + "]" : "");
   }
 
-  // 다음(카카오) 우편번호 검색 팝업
+  // 다음(카카오) 우편번호 서비스 — 폼 안 작은 창(인라인 임베드)
   function openPostcode() {
     if (typeof daum === "undefined" || !daum.Postcode) {
       flashHint("주소 검색을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
       return;
     }
+    const box = document.getElementById("postcodeBox");
+    const wrap = document.getElementById("postcodeWrap");
+    if (!box || !wrap) return;
+    wrap.innerHTML = ""; // 이전 임베드 정리
+    box.hidden = false;
     new daum.Postcode({
+      width: "100%",
+      height: "100%",
+      maxSuggestItems: 5,
       oncomplete: function (data) {
         const zip = document.getElementById("zipcode");
         const a1 = document.getElementById("address1");
         const a2 = document.getElementById("address2");
         if (zip) zip.value = data.zonecode;
         if (a1) a1.value = data.roadAddress || data.jibunAddress;
+        closePostcode();
         if (a2) a2.focus(); // 상세주소 입력으로 이동
       },
-    }).open();
+    }).embed(wrap);
+    box.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  function closePostcode() {
+    const box = document.getElementById("postcodeBox");
+    const wrap = document.getElementById("postcodeWrap");
+    if (box) box.hidden = true;
+    if (wrap) wrap.innerHTML = "";
   }
 
   // ---------- 주문 제출 ----------

@@ -200,6 +200,11 @@ img { max-width: 100%; display: block; }
 .addr__btn { padding: 12px 18px; font-size: .92rem; background: var(--leaf); color: #fff; white-space: nowrap; border-radius: var(--radius-sm); }
 .addr__btn:hover { background: var(--leaf-dark); }
 .addr input[readonly] { background: #f7f4fa; cursor: pointer; }
+.postcode-box { border: 1px solid var(--berry-light); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow); }
+.postcode-box__bar { display: flex; align-items: center; justify-content: space-between; background: var(--berry); color: #fff; padding: 8px 12px; font-size: .88rem; font-weight: 600; }
+.postcode-box__bar button { background: none; border: 0; color: #fff; font-size: 1rem; cursor: pointer; line-height: 1; padding: 2px 4px; }
+#postcodeWrap { height: 400px; width: 100%; }
+#postcodeWrap > div { border: 0 !important; }
 
 .form__check { display: flex; align-items: flex-start; gap: 8px; font-weight: 500 !important; margin-bottom: 0 !important; cursor: pointer; }
 .form__check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--berry); }
