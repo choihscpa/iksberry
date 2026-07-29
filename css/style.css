@@ -193,6 +193,14 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-sm); font-size: 1rem; font-family: inherit; background: #fff; color: var(--ink);
 }
 .order__step input:focus { outline: none; border-color: var(--berry-light); box-shadow: 0 0 0 3px rgba(123,83,166,.15); }
+/* 주소 검색 */
+.addr { display: grid; gap: 10px; margin-bottom: 14px; }
+.addr__top { display: flex; gap: 8px; }
+.addr__top input { flex: 1; }
+.addr__btn { padding: 12px 18px; font-size: .92rem; background: var(--leaf); color: #fff; white-space: nowrap; border-radius: var(--radius-sm); }
+.addr__btn:hover { background: var(--leaf-dark); }
+.addr input[readonly] { background: #f7f4fa; cursor: pointer; }
+
 .form__check { display: flex; align-items: flex-start; gap: 8px; font-weight: 500 !important; margin-bottom: 0 !important; cursor: pointer; }
 .form__check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--berry); }
 .form__check a { color: var(--berry); text-decoration: underline; }

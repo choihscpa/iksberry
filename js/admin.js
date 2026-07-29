@@ -73,17 +73,23 @@
       return;
     }
     var head =
-      "<tr><th>주문번호</th><th>주문자</th><th>연락처</th><th>합계</th>" +
-      "<th>수금</th><th>상태</th><th>처리</th></tr>";
+      "<tr><th>주문번호</th><th>주문자</th><th>연락처</th><th>배송지</th><th>합계</th>" +
+      "<th>수금</th><th>출고</th><th>처리</th></tr>";
     var rows = list.map(function (o) {
       var pay = pill(o.payStatus);
       var st = pill(o.status);
+      // 수령인이 주문자와 다르면 함께 표시
+      var recv = (o.receiver && o.receiver !== o.name) ? "<br><small style='color:#6a6472'>받는분: " + o.receiver + "</small>" : "";
+      var addr = "<div class='addr-cell'>" + (o.address || "-") + recv + "</div>";
+      var shipInfo = o.tracking ? "<br><small style='color:#3f7d4e'>📦 " + o.tracking + "</small>" : "";
       var actions =
         '<button class="btn-sm" data-pay="' + o.orderNo + '" data-total="' + num(o.total) + '" data-name="' + o.name + '">수금등록</button> ' +
-        '<button class="btn-sm ship" data-ship="' + o.orderNo + '" data-name="' + o.name + '">발송</button>';
+        '<button class="btn-sm ship" data-ship="' + o.orderNo + '" data-name="' + o.name + '" data-addr="' + encodeURIComponent(o.address || "") + '">출고</button>';
       return "<tr><td><b>" + o.orderNo + "</b><br><small style='color:#6a6472'>" + (o.date || "") + "</small></td>" +
-        "<td>" + o.name + "</td><td>" + o.phone + "</td><td>" + o.total + "</td>" +
-        "<td>" + pay + "</td><td>" + st + (o.tracking ? "<br><small>" + o.tracking + "</small>" : "") + "</td>" +
+        "<td>" + o.name + "</td><td>" + o.phone + "</td>" +
+        "<td>" + addr + "</td>" +
+        "<td>" + o.total + "</td>" +
+        "<td>" + pay + "</td><td>" + st + shipInfo + "</td>" +
         "<td>" + actions + "</td></tr>";
     }).join("");
     tbody.innerHTML = head + rows;
@@ -178,8 +184,9 @@
       receiver: $("payReceiver").value.trim(),
     }, $("payMsg"), $("payModal"));
   }
-  function openShip(orderNo, name) {
-    $("shipOrderInfo").textContent = orderNo + " · " + name;
+  function openShip(orderNo, name, addr) {
+    $("shipOrderInfo").innerHTML = "<b>" + orderNo + "</b> · " + name +
+      (addr ? "<br>📍 " + addr : "");
     $("shipCourier").value = "";
     $("shipTracking").value = "";
     $("shipMsg").textContent = "";
@@ -239,7 +246,7 @@
       var pay = e.target.closest("[data-pay]");
       if (pay) openPay(pay.dataset.pay, num(pay.dataset.total), pay.dataset.name);
       var ship = e.target.closest("[data-ship]");
-      if (ship) openShip(ship.dataset.ship, ship.dataset.name);
+      if (ship) openShip(ship.dataset.ship, ship.dataset.name, decodeURIComponent(ship.dataset.addr || ""));
       var savep = e.target.closest("[data-save-prod]");
       if (savep) saveProd(savep.closest(".prod"));
       var delp = e.target.closest("[data-del-prod]");

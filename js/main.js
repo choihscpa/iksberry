@@ -213,6 +213,12 @@
       if (e.target.matches("[data-qty]")) setQty(e.target.dataset.qty, e.target.value);
     });
 
+    // 주소 검색 (버튼 + 기본주소 칸 클릭)
+    const addrBtn = document.getElementById("addrSearchBtn");
+    if (addrBtn) addrBtn.addEventListener("click", openPostcode);
+    const addr1 = document.getElementById("address1");
+    if (addr1) addr1.addEventListener("click", openPostcode);
+
     // 수령인 동일 체크
     const same = document.getElementById("sameAsOrderer");
     const recv = document.getElementById("receiverFields");
@@ -242,6 +248,32 @@
     hintTimer = setTimeout(() => (hint.textContent = ""), 3500);
   }
 
+  // 주소 3필드(우편번호·기본·상세)를 한 문자열로 합침
+  function buildAddress(form) {
+    const zip = (form.zipcode ? form.zipcode.value.trim() : "");
+    const a1 = (form.address1 ? form.address1.value.trim() : "");
+    const a2 = (form.address2 ? form.address2.value.trim() : "");
+    return (a1 + " " + a2).trim() + (zip ? " [" + zip + "]" : "");
+  }
+
+  // 다음(카카오) 우편번호 검색 팝업
+  function openPostcode() {
+    if (typeof daum === "undefined" || !daum.Postcode) {
+      flashHint("주소 검색을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      return;
+    }
+    new daum.Postcode({
+      oncomplete: function (data) {
+        const zip = document.getElementById("zipcode");
+        const a1 = document.getElementById("address1");
+        const a2 = document.getElementById("address2");
+        if (zip) zip.value = data.zonecode;
+        if (a1) a1.value = data.roadAddress || data.jibunAddress;
+        if (a2) a2.focus(); // 상세주소 입력으로 이동
+      },
+    }).open();
+  }
+
   // ---------- 주문 제출 ----------
   function onSubmit(e) {
     e.preventDefault();
@@ -266,7 +298,7 @@
       ordererEmail: form.ordererEmail.value.trim(),
       receiverName: same ? form.ordererName.value.trim() : form.receiverName.value.trim(),
       receiverPhone: same ? form.ordererPhone.value.trim() : form.receiverPhone.value.trim(),
-      address: form.address.value.trim(),
+      address: buildAddress(form),
       memo: form.memo.value.trim(),
       items: items,
       productAmount: totals.sum,
