@@ -193,6 +193,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-sm); font-size: 1rem; font-family: inherit; background: #fff; color: var(--ink);
 }
 .order__step input:focus { outline: none; border-color: var(--berry-light); box-shadow: 0 0 0 3px rgba(123,83,166,.15); }
+.order__step input.is-locked { background: #f3f0f7; color: var(--ink-soft); cursor: not-allowed; }
 /* 주소 검색 */
 .addr { display: grid; gap: 10px; margin-bottom: 14px; }
 .addr__top { display: flex; gap: 8px; }

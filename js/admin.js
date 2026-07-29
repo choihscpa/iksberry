@@ -187,7 +187,7 @@
   function openShip(orderNo, name, addr) {
     $("shipOrderInfo").innerHTML = "<b>" + orderNo + "</b> · " + name +
       (addr ? "<br>📍 " + addr : "");
-    $("shipCourier").value = "";
+    $("shipCourier").value = (CFG && CFG.courier) ? CFG.courier : "";
     $("shipTracking").value = "";
     $("shipMsg").textContent = "";
     $("shipModal").dataset.order = orderNo;

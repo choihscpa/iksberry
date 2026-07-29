@@ -232,11 +232,15 @@
     const pcClose = document.getElementById("postcodeClose");
     if (pcClose) pcClose.addEventListener("click", closePostcode);
 
-    // 수령인 동일 체크
+    // 수령인 동일 체크: 체크 시 수령인 칸에 주문자 정보를 그대로 채우고 잠금
     const same = document.getElementById("sameAsOrderer");
-    const recv = document.getElementById("receiverFields");
-    if (same && recv) {
-      same.addEventListener("change", () => (recv.hidden = same.checked));
+    if (same) {
+      same.addEventListener("change", syncReceiver);
+      const on = document.querySelector("[name=ordererName]");
+      const op = document.querySelector("[name=ordererPhone]");
+      if (on) on.addEventListener("input", () => { if (same.checked) syncReceiver(); });
+      if (op) op.addEventListener("input", () => { if (same.checked) syncReceiver(); });
+      syncReceiver(); // 초기 상태(기본 체크) 반영
     }
 
     // 주문 제출
@@ -259,6 +263,26 @@
     hint.textContent = msg;
     clearTimeout(hintTimer);
     hintTimer = setTimeout(() => (hint.textContent = ""), 3500);
+  }
+
+  // 수령인=주문자 체크 시 수령인 칸을 주문자 값으로 채우고 읽기전용, 해제 시 편집 가능
+  function syncReceiver() {
+    const same = document.getElementById("sameAsOrderer");
+    const rn = document.querySelector("[name=receiverName]");
+    const rp = document.querySelector("[name=receiverPhone]");
+    const on = document.querySelector("[name=ordererName]");
+    const op = document.querySelector("[name=ordererPhone]");
+    if (!same || !rn || !rp) return;
+    if (same.checked) {
+      rn.value = on ? on.value : "";
+      rp.value = op ? op.value : "";
+      rn.readOnly = true; rp.readOnly = true;
+      rn.classList.add("is-locked"); rp.classList.add("is-locked");
+    } else {
+      rn.readOnly = false; rp.readOnly = false;
+      rn.classList.remove("is-locked"); rp.classList.remove("is-locked");
+      rn.focus();
+    }
   }
 
   // 주소 3필드(우편번호·기본·상세)를 한 문자열로 합침
@@ -380,7 +404,7 @@
 
   function resetOrder(form) {
     form.reset();
-    document.getElementById("receiverFields").hidden = true;
+    syncReceiver(); // 기본 체크 상태로 수령인 칸 재동기화
     PRODUCTS.forEach((p) => (qty[p.code] = 0));
     renderOrderItems();
     calcTotals();
